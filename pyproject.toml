@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "python2-json"
+version = "0.1.0"
+description = "Basic implementation of the standard `json` module with support for very old Python versions (`< 2.3`)."
+authors = ["Luca Salvarani <lucasalvarani99@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "python2_json"}]
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+# Install with `poetry install --with dev`
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+vermin = "^1.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
