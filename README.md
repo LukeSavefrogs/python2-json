@@ -159,7 +159,7 @@ These are some valid alternatives if this is not what you're looking for (_as it
 		</tr>
 		<tr>
 			<td>
-				<code><a href="[https](https://github.com/python-rapidjson/python-rapidjson)">python-rapidjson</a></code>
+				<code><a href="https://github.com/python-rapidjson/python-rapidjson">python-rapidjson</a></code>
 			</td>
 			<td>
 				Python 3 wrapper around <code>RapidJSON</code>, an extremely fast C++ JSON parser and serialization library
