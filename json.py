@@ -527,8 +527,24 @@ def loads(
     return result
 
 
-def load(fh, *args, **kwargs): # novermin
-    load(*args, **kwargs)      # novermin
+def load(
+        fh,
+		json_str # type: str
+	):
+	fh.write(loads(json_str))
+    
 
-def dump(fh, *args, **kwargs): # novermin
-    dump(*args, **kwargs)      # novermin
+def dump(
+        fh,
+		obj,
+        indent=None,          # type: int|None
+        truthy_value=None,
+        falsy_value=None
+    ):
+	fh.write(dumps(
+		obj,
+        indent,          # type: int|None
+        truthy_value,
+        falsy_value,
+	))
+    
