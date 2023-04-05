@@ -203,7 +203,9 @@ def dumps(
 
 
 def loads(
-        json_str # type: str
+        json_str, # type: str
+        truthy_value=None,
+        falsy_value=None,
     ):
     """
     Parses a JSON string and returns the corresponding Python object.
@@ -215,6 +217,17 @@ def loads(
         Any: A Python object corresponding to the JSON string.
     """
     json_str = json_str.strip()
+
+    are_boolean_defined = str(1==1) == 'True'
+    if not are_boolean_defined and (truthy_value is None and falsy_value is None):
+        print(
+            "Warning: No boolean values (True/False) detected and the 'truthy_value' and 'falsy_value' options are not set." +
+            " If you're using this module on Python < 2.3 set them accordingly."
+        )
+
+    if (truthy_value is None and falsy_value is not None) or (truthy_value is not None and falsy_value is None):
+        raise Exception("The 'truthy_value' and 'falsy_value' options MUST be BOTH either set or unset.")
+
 
     # Ensure that the input is a string.
     if get_jython_type(json_str) != "str":
@@ -318,7 +331,7 @@ def loads(
                 # This is the case, for example, when a non-object value is last.
                 if len(nesting_levels) == 0 and len(last_value) == 2:
                     key_value = json_str[last_value[0]:last_value[1]]
-                    result[key_name] = loads(key_value)
+                    result[key_name] = loads(key_value, truthy_value, falsy_value)
                     
                     last_key = ()
                     last_value = ()
@@ -357,7 +370,7 @@ def loads(
                 value = json_str[last_value[0]:last_value[1]]
 
                 # Parse the JSON value
-                result[key_name] = loads(value)
+                result[key_name] = loads(value, truthy_value, falsy_value)
 
                 last_key = ()
                 last_value = ()
@@ -436,7 +449,7 @@ def loads(
                 # This is the case, for example, when a non-object value is last.
                 if len(nesting_levels) == 0 and len(last_value) == 2:
                     key_value = json_str[last_value[0]:last_value[1]]
-                    result.append(loads(key_value))
+                    result.append(loads(key_value, truthy_value, falsy_value))
                     
                     last_value = ()
                 continue
@@ -471,7 +484,7 @@ def loads(
                 value = json_str[last_value[0]:last_value[1]]
 
                 # Parse the JSON value
-                result.append(loads(value))
+                result.append(loads(value, truthy_value, falsy_value))
 
                 last_value = ()
             # endif
@@ -513,9 +526,16 @@ def loads(
         
         # ---> Boolean
         elif json_str == "true":
-            return __true__
+            if truthy_value is not None:
+                return truthy_value
+            else:
+                return __true__
+            
         elif json_str == "false":
-            return __false__
+            if falsy_value is not None:
+                return falsy_value
+            else:
+                return __false__
         
         # ---> Null
         elif json_str == "null":
@@ -529,22 +549,24 @@ def loads(
 
 def load(
         fh,
-		json_str # type: str
-	):
-	fh.write(loads(json_str))
+        json_str, # type: str
+        truthy_value=None, 
+        falsy_value=None
+    ):
+    fh.write(loads(json_str, truthy_value, falsy_value))
     
 
 def dump(
         fh,
-		obj,
+        obj,
         indent=None,          # type: int|None
         truthy_value=None,
         falsy_value=None
     ):
-	fh.write(dumps(
-		obj,
+    fh.write(dumps(
+        obj,
         indent,          # type: int|None
         truthy_value,
         falsy_value,
-	))
+    ))
     
