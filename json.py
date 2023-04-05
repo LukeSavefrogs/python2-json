@@ -189,12 +189,11 @@ def dumps(
         #   boundaries of the JSON object) by {indent} spaces if needed (check
         #   `needs_indentation` for the constraints).
         for index in range(1, len(obj_string_parts)-1):
-            obj_string_parts[index] = '\n'.join(
-                map(
-                    lambda s: " " * indent_spaces + s, 
-                    obj_string_parts[index].splitlines()
-                )
-            )
+            obj_string_parts[index] = '\n'.join([ 
+                " " * indent_spaces + string 
+                for string in obj_string_parts[index].splitlines()
+            ])
+            
 
         return '\n'.join(obj_string_parts)
     #endif
