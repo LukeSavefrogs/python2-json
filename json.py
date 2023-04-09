@@ -1,18 +1,4 @@
-"""_summary_
-
-
-#TODO: Convert unicode strings to character and viceversa
-#TODO: Handle backslash
-```
->>> json.loads(r'["value", 1, [true, "\" \\ \/ \b \f \n \r \t \u1eb7"], {"test": false}]')
-- ORIGINAL: ['value', 1, [True, '" \\ / \x08 \x0c \n \r \t ặ'], {'test': False}]
-- THIS:     ['value', 1, [True, '" \\ / \x08 \x0c \n \r \t \\u1eb7'], {'test': False}]
-
->>> json.dumps(['value', 1, [True, '" \\ / \x08 \x0c \n \r \t ặ'], {'test': False}])
-- ORIGINAL: '["value", 1, [true, "\\" \\\\ / \\b \\f \\n \\r \\t \\u1eb7"], {"test": false}]'
-- THIS:     '["value", 1, [true, "\\" \\\\ / \x08 \x0c \n \r \t ặ"], {"test": false}]'
-```
-"""
+""" Basic implementation of a JSON parser written in pure Python for very old Python versions (2.2 and lower). """
 import re
 
 def get_jython_type(obj):
@@ -261,7 +247,7 @@ def loads(
                 if len(nesting_levels) > 1:
                     continue
 
-                is_inside_string = not is_inside_string     # type: bool
+                is_inside_string = not is_inside_string
                 if is_inside_string:
                     last_string = (index,)
 
@@ -395,7 +381,7 @@ def loads(
                 if len(nesting_levels) > 1:
                     continue
 
-                is_inside_string = not is_inside_string     # type: bool
+                is_inside_string = not is_inside_string
                 if is_inside_string:
                     # Leave the string quoted `"`, so that the value will be decoded as a string
                     if len(last_value) < 2:
@@ -564,7 +550,7 @@ def dump(
     ):
     fh.write(dumps(
         obj,
-        indent,          # type: int|None
+        indent,
         truthy_value,
         falsy_value,
     ))
