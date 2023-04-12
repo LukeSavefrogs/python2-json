@@ -178,3 +178,50 @@ These are some valid alternatives if this is not what you're looking for (_as it
 # Development
 1. **Clone** the repository
 2. **Install** with `poetry install --with dev`
+
+### Tests
+**Tests ensure** that changes to the codebase **do not break existing features** and that anything **works as expected**.
+
+To launch the tests run the following command:
+```
+poetry run poe test
+```
+
+Please make sure to...
+- ... keep existing tests up-to-date with the latest **changes**;
+- ... write relative tests when adding **new features**.
+
+#### Tests code style
+When writing tests please keep the in mind that:
+- test files MUST be written for `unittest`;
+- _test cases_ names MUST be a descriptive name written in PascalCase and end with `TestCase` (e.g. `class MyTestCase(unittest.TestCase):`);
+- _test_ names MUST be a descriptive name written in snake_case (_all lowercase, with words separated with an underscore_) and start with `test_` (e.g. `def test_feature(self):`);
+- MAY use the [`setUp()`](https://docs.python.org/3/library/unittest.html#unittest.TestCase.setUp) and [`teardown()`](https://docs.python.org/3/library/unittest.html#unittest.TestCase.tearDown) methods to define instructions that will be executed before and after each test method;
+- each test MUST contain at least one `self.assert*` method call (we don't want empty no-op tests);
+
+The following is an example of agood test from the official Python documentation:
+```python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+
+    def test_default_widget_size(self):
+        self.assertEqual(
+			self.widget.size(),
+			(50,50),
+            'incorrect default size'
+		)
+
+    def test_widget_resize(self):
+        self.widget.resize(100,150)
+        self.assertEqual(
+			self.widget.size(),
+			(100,150),
+            'wrong size after resize'
+		)
+```

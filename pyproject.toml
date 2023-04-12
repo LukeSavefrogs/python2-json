@@ -5,7 +5,7 @@ description = "Basic implementation of the standard `json` module with support f
 authors = ["Luca Salvarani <lucasalvarani99@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "python2_json"}]
+packages = [{include = "json.py"}]
 
 
 [tool.poetry.dependencies]
@@ -17,8 +17,13 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 vermin = "^1.5.1"
+poethepoet = "^0.19.0"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.poe.tasks]
+test = "python -m unittest discover --failfast --catch --verbose"
